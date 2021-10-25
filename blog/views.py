@@ -1,7 +1,7 @@
 from django.shortcuts import render,redirect,HttpResponse
 from django.contrib import messages
 from .models import User
-from .forms import UserForm
+from .forms import UserForm,ProfileForm
 from django.contrib.auth import authenticate,login,logout
 from django.contrib.auth.forms import AuthenticationForm
 # Create your views here.
@@ -46,3 +46,20 @@ def user_login(request):
     return render(request, 'blog/login.html', {"form": form})
             
             
+def user_profile(request,id):
+    user = User.objects.get(id=id)
+    
+    form = ProfileForm(instance=user)
+    
+    if request.method == "POST":
+        form = ProfileForm(request.POST,instance=user)
+        if form.is_valid():
+            form.save();
+            messages.success(request, "Your profile is updated successfully")
+            
+    context = {
+        "user" : user,
+        "form" : form
+    }
+    
+    return render(request,"blog/profile.html",context)
