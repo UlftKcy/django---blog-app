@@ -1,0 +1,15 @@
+{% extends 'blog/base.html' %} {% block content %} {% load crispy_forms_tags %}
+
+<div class="container">
+  <h2>Join Today</h2>
+
+  {% if request.user.is_authenticated %}
+  <p class="h1 text-center">Clarusway Blog</p>
+  {% else %}
+  <form action="" method="post" enctype="multipart/form-data">
+    {% csrf_token %} {{form_user | crispy }}
+    <button type="submit" class="btn btn-outline-primary">Sign Up</button>
+  </form>
+</div>
+
+{% endif %} {% endblock content %}
